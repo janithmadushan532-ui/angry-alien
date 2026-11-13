@@ -1,0 +1,22 @@
+name: Move to Root
+on: [push]
+permissions:
+  contents: write
+jobs:
+  move:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move Files to Root
+        run: |
+          shopt -s dotglob
+          mv angry-aliens-phaser-main/* .
+          rmdir angry-aliens-phaser-main
+          ls -la
+      - name: Save
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Moved to root" || echo "Done"
+          git push 
